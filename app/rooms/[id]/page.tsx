@@ -3,9 +3,14 @@ import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-export default function RoomDetailPage({ params }: { params: { id: string } }) {
+export default async function RoomDetailPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
   const room = {
-    id: params.id,
+    id,
     title: "Private Suite with Study Desk",
     type: "EXECUTIVE SINGLE",
     floor: "3RD FLOOR",

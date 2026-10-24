@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 
-export default function BookingPage({ params }: { params: { id: string } }) {
+export default function BookingPage() {
   const [checkInDate, setCheckInDate] = useState("");
   const [checkOutDate, setCheckOutDate] = useState("");
   const [agreeTerms, setAgreeTerms] = useState(false);
