@@ -3,7 +3,8 @@ import { Providers } from "./providers";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Pandora's Homes | Premier Male Residence in Dhaka",
+  title: "Pandora Home's | Bachelor's Dream Stay in Dhaka",
+  icons: { icon: "/favicon.png" },
   description: "A sharper way to live, study and belong. Private rooms, shared dorms, and studio suites with high-speed fiber and 24/7 security.",
   keywords: ["hostel", "accommodation", "residence", "Dhaka", "students", "professionals"],
 };

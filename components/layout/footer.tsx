@@ -7,7 +7,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           {/* Company Info */}
           <div>
-            <h3 className="font-bold mb-4">PANDORA'S HOMES</h3>
+            <img src="/images/logo.png" alt="Pandora Home's — Bachelor's Dream Stay" className="h-24 w-auto mb-4" />
             <p className="text-sm text-muted-foreground">
               A sharper way to live, study and belong. Premier male residence in Dhaka.
             </p>

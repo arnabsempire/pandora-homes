@@ -2,6 +2,7 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { ROOM_IMAGES } from "@/lib/room-images";
 
 export function generateStaticParams() {
   return [{ id: "1" }, { id: "2" }, { id: "3" }];
@@ -13,24 +14,54 @@ export default async function RoomDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+  const details: Record<string, {
+    title: string; type: string; floor: string; price: number; available: boolean;
+    description: string; amenities: string[];
+  }> = {
+    "1": {
+      title: "Private Suite with Study Desk",
+      type: "EXECUTIVE SINGLE",
+      floor: "3RD FLOOR",
+      price: 18500,
+      available: true,
+      description:
+        "A comfortable and spacious private room perfect for focused study and work. Features a dedicated study desk, modern amenities, and direct access to all facilities.",
+      amenities: [
+        "High-Speed Wi-Fi",
+        "Air Conditioning",
+        "Study Desk & Chair",
+        "Private Bathroom",
+        "Wardrobe Storage",
+        "Premium Bedding",
+        "Reading Lamp",
+        "Power Outlets",
+      ],
+    },
+    "2": {
+      title: "Shared Dorm (4-bed)",
+      type: "STANDARD DORM",
+      floor: "2ND FLOOR",
+      price: 8500,
+      available: true,
+      description:
+        "An affordable shared dorm with sturdy bunk beds and a friendly community atmosphere. Each resident gets their own bed and locker storage.",
+      amenities: ["High-Speed Wi-Fi", "Bunk Bed", "Locker Storage", "Shared Kitchen", "Power Outlets"],
+    },
+    "3": {
+      title: "Studio Suite (1-2 Person)",
+      type: "STUDIO SUITE",
+      floor: "4TH FLOOR",
+      price: 12000,
+      available: false,
+      description:
+        "A bright studio suite for one or two people, with separate beds and room to study and relax.",
+      amenities: ["High-Speed Wi-Fi", "Two Single Beds", "Kitchenette", "Private Entrance", "Wardrobe Storage"],
+    },
+  };
+  const d = details[id] ?? details["1"];
   const room = {
     id,
-    title: "Private Suite with Study Desk",
-    type: "EXECUTIVE SINGLE",
-    floor: "3RD FLOOR",
-    price: 18500,
-    description:
-      "A comfortable and spacious private room perfect for focused study and work. Features a dedicated study desk, modern amenities, and direct access to all facilities.",
-    amenities: [
-      "High-Speed Wi-Fi",
-      "Air Conditioning",
-      "Study Desk & Chair",
-      "Private Bathroom",
-      "Wardrobe Storage",
-      "Premium Bedding",
-      "Reading Lamp",
-      "Power Outlets",
-    ],
+    ...d,
     rules: [
       "No smoking inside the room",
       "Quiet hours: 10 PM - 8 AM",
@@ -38,7 +69,7 @@ export default async function RoomDetailPage({
       "No pets allowed",
       "Communal areas must be kept clean",
     ],
-    images: ["🛏️", "📚", "🚿", "🏠"],
+    images: ROOM_IMAGES[id] ?? ROOM_IMAGES["1"],
   };
 
   return (
@@ -67,15 +98,15 @@ export default async function RoomDetailPage({
               {/* Images */}
               <div className="lg:col-span-2">
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="col-span-2 aspect-video bg-gradient-to-br from-slate-700 to-slate-900 rounded-lg flex items-center justify-center text-8xl">
-                    {room.images[0]}
+                  <div className="col-span-2 aspect-video bg-slate-200 rounded-lg overflow-hidden">
+                    <img src={room.images[0]} alt={room.title} className="w-full h-full object-cover" />
                   </div>
                   {room.images.slice(1).map((img, idx) => (
                     <div
                       key={idx}
-                      className="aspect-square bg-gradient-to-br from-slate-600 to-slate-800 rounded-lg flex items-center justify-center text-5xl"
+                      className="aspect-square bg-slate-200 rounded-lg overflow-hidden"
                     >
-                      {img}
+                      <img src={img} alt={`${room.title} photo ${idx + 2}`} loading="lazy" className="w-full h-full object-cover" />
                     </div>
                   ))}
                 </div>
@@ -108,7 +139,7 @@ export default async function RoomDetailPage({
 
                   <div className="pt-4 border-t border-border/40 text-sm text-muted-foreground">
                     <p>Floor: {room.floor}</p>
-                    <p className="mt-2">Availability: Available</p>
+                    <p className="mt-2">Availability: {room.available ? "Available" : "Fully booked"}</p>
                   </div>
                 </div>
               </div>

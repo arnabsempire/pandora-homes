@@ -12,10 +12,11 @@ export function Header() {
       <div className="container flex h-16 max-w-screen-2xl items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-amber-500 rounded-full flex items-center justify-center">
-            <span className="text-white font-bold">🏠</span>
-          </div>
-          <span className="font-bold text-lg">PANDORA'S HOMES</span>
+          <img src="/images/logo-icon.png" alt="Pandora Home's logo" className="w-9 h-9 sm:w-10 sm:h-10 object-contain shrink-0" />
+          <span className="flex flex-col leading-tight">
+            <span className="font-bold text-base sm:text-lg tracking-wide text-amber-500 whitespace-nowrap">PANDORA HOME&apos;S</span>
+            <span className="hidden sm:block text-[10px] uppercase tracking-[0.2em] text-muted-foreground whitespace-nowrap">Bachelor&apos;s Dream Stay</span>
+          </span>
         </Link>
 
         {/* Navigation */}
@@ -33,7 +34,7 @@ export function Header() {
 
         {/* CTA Buttons */}
         <div className="flex items-center space-x-2">
-          <Link href="/login">
+          <Link href="/login" className="hidden sm:block">
             <Button variant="ghost" size="sm">
               Sign In
             </Button>

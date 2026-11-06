@@ -10,7 +10,7 @@ export function FeaturedRooms() {
       floor: "3RD FLOOR",
       price: 18500,
       priceDay: 1200,
-      image: "🛏️",
+      image: "/images/rooms/executive-suite.jpg",
       available: true,
     },
     {
@@ -20,7 +20,7 @@ export function FeaturedRooms() {
       floor: "2ND FLOOR",
       price: 8500,
       priceDay: 500,
-      image: "🛏️🛏️",
+      image: "/images/rooms/dorm-bunk-main.jpg",
       available: true,
     },
     {
@@ -30,7 +30,7 @@ export function FeaturedRooms() {
       floor: "4TH FLOOR",
       price: 12000,
       priceDay: 800,
-      image: "🛏️",
+      image: "/images/rooms/twin-room-1.jpg",
       available: false,
     },
   ];
@@ -52,8 +52,8 @@ export function FeaturedRooms() {
               className="border border-border/40 rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
             >
               {/* Image */}
-              <div className="aspect-video bg-gradient-to-br from-slate-700 to-slate-900 flex items-center justify-center text-6xl">
-                {room.image}
+              <div className="aspect-video bg-slate-200 overflow-hidden">
+                <img src={room.image} alt={room.title} loading="lazy" className="w-full h-full object-cover" />
               </div>
 
               {/* Content */}

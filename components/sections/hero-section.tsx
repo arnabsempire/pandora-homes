@@ -38,20 +38,13 @@ export function HeroSection() {
           {/* Image Content */}
           <div className="relative">
             <div className="aspect-square bg-gradient-to-br from-amber-500 to-orange-500 rounded-lg overflow-hidden">
-              <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-700 to-slate-900">
-                <div className="text-center">
-                  <p className="text-white text-sm mb-4">Premium Room Image</p>
-                  <div className="w-32 h-32 bg-slate-600 rounded-lg mx-auto flex items-center justify-center">
-                    <span className="text-white text-4xl">🏠</span>
-                  </div>
-                </div>
-              </div>
+              <img src="/images/rooms/dorm-bunk-main.jpg" alt="Room at Pandora Home's" className="w-full h-full object-cover" />
             </div>
 
             {/* Room Card */}
             <div className="absolute -bottom-8 -right-4 md:-right-12 bg-white rounded-lg shadow-lg p-4 max-w-xs border border-border/40">
               <div className="flex items-start gap-3 mb-3">
-                <div className="w-16 h-16 bg-slate-600 rounded-lg flex items-center justify-center text-3xl">🛏️</div>
+                <img src="/images/rooms/executive-suite.jpg" alt="Private Suite" className="w-16 h-16 rounded-lg object-cover" />
                 <div>
                   <p className="text-xs text-emerald-600 font-semibold">● AVAILABLE</p>
                   <h3 className="font-bold text-sm">Private Suite with Study Desk</h3>
