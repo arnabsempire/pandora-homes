@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Num, T } from "@/lib/i18n";
 
 export function Footer() {
   return (
@@ -9,27 +10,30 @@ export function Footer() {
           <div>
             <img src="/images/logo.png" alt="Pandora Home's — Bachelor's Dream Stay" className="h-24 w-auto mb-4" />
             <p className="text-sm text-muted-foreground">
-              A sharper way to live, study and belong. Premier male residence in Dhaka.
+              <T
+                en="A sharper way to live, study and belong. Premier male residence in Dhaka."
+                bn="থাকা, পড়াশোনা আর একসাথে বেড়ে ওঠার আরও ভালো ঠিকানা। ঢাকার সেরা ছেলেদের আবাসন।"
+              />
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-semibold mb-4 text-sm">Quick Links</h4>
+            <h4 className="font-semibold mb-4 text-sm"><T en="Quick Links" bn="দ্রুত লিংক" /></h4>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link href="/rooms" className="text-muted-foreground hover:text-primary">
-                  Browse Rooms
+                  <T en="Browse Rooms" bn="রুম দেখুন" />
                 </Link>
               </li>
               <li>
                 <Link href="/about" className="text-muted-foreground hover:text-primary">
-                  About Us
+                  <T en="About Us" bn="আমাদের সম্পর্কে" />
                 </Link>
               </li>
               <li>
                 <Link href="/contact" className="text-muted-foreground hover:text-primary">
-                  Contact
+                  <T en="Contact" bn="যোগাযোগ" />
                 </Link>
               </li>
             </ul>
@@ -37,21 +41,21 @@ export function Footer() {
 
           {/* Policies */}
           <div>
-            <h4 className="font-semibold mb-4 text-sm">Policies</h4>
+            <h4 className="font-semibold mb-4 text-sm"><T en="Policies" bn="নীতিমালা" /></h4>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link href="/privacy" className="text-muted-foreground hover:text-primary">
-                  Privacy Policy
+                  <T en="Privacy Policy" bn="গোপনীয়তা নীতি" />
                 </Link>
               </li>
               <li>
                 <Link href="/terms" className="text-muted-foreground hover:text-primary">
-                  Terms of Service
+                  <T en="Terms of Service" bn="সেবার শর্তাবলি" />
                 </Link>
               </li>
               <li>
                 <Link href="/cancellation" className="text-muted-foreground hover:text-primary">
-                  Cancellation Policy
+                  <T en="Cancellation Policy" bn="বাতিলকরণ নীতি" />
                 </Link>
               </li>
             </ul>
@@ -59,11 +63,11 @@ export function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 className="font-semibold mb-4 text-sm">Contact</h4>
+            <h4 className="font-semibold mb-4 text-sm"><T en="Contact" bn="যোগাযোগ" /></h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>📧 info@pandorashomes.com</li>
-              <li>📞 +880 1234 567890</li>
-              <li>📍 Dhaka, Bangladesh</li>
+              <li>📞 <Num value="+880 1234 567890" /></li>
+              <li>📍 <T en="Dhaka, Bangladesh" bn="ঢাকা, বাংলাদেশ" /></li>
             </ul>
           </div>
         </div>
@@ -71,7 +75,10 @@ export function Footer() {
         {/* Divider */}
         <div className="border-t border-border/40 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center text-sm text-muted-foreground">
-            <p>&copy; 2024 Pandora's Homes. All rights reserved.</p>
+            <p>
+              &copy; <Num value="2026" /> Pandora Home&apos;s.{" "}
+              <T en="All rights reserved." bn="সর্বস্বত্ব সংরক্ষিত।" />
+            </p>
             <div className="flex space-x-4 mt-4 md:mt-0">
               <Link href="#" className="hover:text-primary">Facebook</Link>
               <Link href="#" className="hover:text-primary">Instagram</Link>

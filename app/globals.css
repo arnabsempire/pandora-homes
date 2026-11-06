@@ -56,3 +56,42 @@
 body {
   @apply bg-background text-foreground;
 }
+
+/* Bangla text: use a Bangla font when the site is switched to Bangla */
+html[lang="bn"] body {
+  font-family: "Hind Siliguri", system-ui, sans-serif;
+}
+
+/* Check-in / check-out calendar (react-day-picker) in Pandora's orange */
+.pandora-calendar .rdp-root {
+  --rdp-accent-color: #f59e0b;
+  --rdp-accent-background-color: #fef3c7;
+  --rdp-range_middle-background-color: #fef3c7;
+  --rdp-range_middle-color: #78350f;
+  --rdp-range_start-date-background-color: #f59e0b;
+  --rdp-range_end-date-background-color: #f59e0b;
+  --rdp-today-color: #d97706;
+  --rdp-day-width: 42px;
+  --rdp-day-height: 42px;
+  --rdp-day_button-width: 40px;
+  --rdp-day_button-height: 40px;
+  --rdp-months-gap: 2.5rem;
+}
+.pandora-calendar .rdp-month_caption {
+  justify-content: center;
+  font-weight: 700;
+}
+.pandora-calendar .rdp-weekday {
+  font-size: 0.75rem;
+  color: hsl(var(--muted-foreground));
+}
+.pandora-calendar .rdp-disabled {
+  opacity: 0.3;
+}
+@media (prefers-color-scheme: dark) {
+  .pandora-calendar .rdp-root {
+    --rdp-accent-background-color: rgba(245, 158, 11, 0.2);
+    --rdp-range_middle-background-color: rgba(245, 158, 11, 0.2);
+    --rdp-range_middle-color: #fde68a;
+  }
+}
