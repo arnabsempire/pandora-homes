@@ -8,6 +8,7 @@ import { StatsSection } from "@/components/sections/stats-section";
 import { AmenitiesSection } from "@/components/sections/amenities-section";
 import { CTASection } from "@/components/sections/cta-section";
 import { GallerySection } from "@/components/sections/gallery-section";
+import { WhySection } from "@/components/sections/why-section";
 
 export default function Home() {
   return (
@@ -17,6 +18,7 @@ export default function Home() {
         <HeroSection />
         <StatsSection />
         <FeaturedRooms />
+        <WhySection />
         <GallerySection />
         <AmenitiesSection />
         <CTASection />

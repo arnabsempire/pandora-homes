@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Num, T } from "@/lib/i18n";
+import { ADDRESS, MAP_URL, PHONES, prettyPhone } from "@/lib/contact";
 
 export function Footer() {
   return (
@@ -65,9 +66,20 @@ export function Footer() {
           <div>
             <h4 className="font-semibold mb-4 text-sm"><T en="Contact" bn="যোগাযোগ" /></h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>📧 info@pandorashomes.com</li>
-              <li>📞 <Num value="+880 1234 567890" /></li>
-              <li>📍 <T en="Dhaka, Bangladesh" bn="ঢাকা, বাংলাদেশ" /></li>
+              {PHONES.map((p) => (
+                <li key={p}>
+                  📞{" "}
+                  <a href={`tel:${p}`} className="hover:text-primary">
+                    <Num value={prettyPhone(p)} />
+                  </a>
+                </li>
+              ))}
+              <li>
+                📍{" "}
+                <a href={MAP_URL} target="_blank" rel="noopener noreferrer" className="hover:text-primary">
+                  <T t={ADDRESS} />
+                </a>
+              </li>
             </ul>
           </div>
         </div>

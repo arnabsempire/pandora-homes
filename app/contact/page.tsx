@@ -5,6 +5,7 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import { Num, T, useT } from "@/lib/i18n";
+import { ADDRESS, ADDRESS_NOTE, MAP_URL, PHONES, prettyPhone } from "@/lib/contact";
 
 export default function ContactPage() {
   const t = useT();
@@ -46,16 +47,29 @@ export default function ContactPage() {
               <div className="lg:col-span-1">
                 <div className="space-y-8">
                   <div>
-                    <h3 className="font-semibold mb-2">📧 <T en="Email" bn="ইমেইল" /></h3>
-                    <p className="text-muted-foreground">info@pandorashomes.com</p>
-                  </div>
-                  <div>
                     <h3 className="font-semibold mb-2">📞 <T en="Phone" bn="ফোন" /></h3>
-                    <p className="text-muted-foreground"><Num value="+880 1234 567890" /></p>
+                    <ul className="space-y-1">
+                      {PHONES.map((p) => (
+                        <li key={p}>
+                          <a href={`tel:${p}`} className="text-muted-foreground hover:text-amber-600">
+                            <Num value={prettyPhone(p)} />
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                   <div>
                     <h3 className="font-semibold mb-2">📍 <T en="Address" bn="ঠিকানা" /></h3>
-                    <p className="text-muted-foreground"><T en="Dhaka, Bangladesh" bn="ঢাকা, বাংলাদেশ" /></p>
+                    <p className="text-muted-foreground"><T t={ADDRESS} /></p>
+                    <p className="text-sm text-muted-foreground mt-1"><T t={ADDRESS_NOTE} /></p>
+                    <a
+                      href={MAP_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block mt-2 text-sm font-semibold text-amber-600 hover:underline"
+                    >
+                      <T en="Open in Google Maps →" bn="গুগল ম্যাপে দেখুন →" />
+                    </a>
                   </div>
                   <div>
                     <h3 className="font-semibold mb-2">🕒 <T en="Hours" bn="সময়সূচি" /></h3>
