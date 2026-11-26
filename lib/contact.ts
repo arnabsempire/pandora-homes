@@ -19,3 +19,6 @@ export const MAP_URL =
 
 /** 01805534187 -> 01805-534187 */
 export const prettyPhone = (p: string) => `${p.slice(0, 5)}-${p.slice(5)}`;
+
+/** Opens the visitor's messaging app with the text filled in (works on Android and iOS). */
+export const smsLink = (body: string, phone = PHONES[0]) => `sms:${phone}?&body=${encodeURIComponent(body)}`;

@@ -4,12 +4,20 @@ import { useState } from "react";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
+import { SendEnquiry } from "@/components/send-enquiry";
 import { Num, T, useT } from "@/lib/i18n";
 import { ADDRESS, ADDRESS_NOTE, MAP_URL, PHONES, prettyPhone } from "@/lib/contact";
 
+const SUBJECTS: Record<string, string> = {
+  booking: "Booking Inquiry",
+  general: "General Question",
+  feedback: "Feedback",
+  other: "Other",
+};
+
 export default function ContactPage() {
   const t = useT();
-  const [sent, setSent] = useState(false);
+  const [message, setMessage] = useState<string | null>(null);
   const [formData, setFormData] = useState({ name: "", email: "", subject: "", message: "" });
 
   const handleChange = (
@@ -21,9 +29,15 @@ export default function ContactPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    setSent(true);
-    setFormData({ name: "", email: "", subject: "", message: "" });
+    setMessage(
+      [
+        `Message from the website - ${SUBJECTS[formData.subject] ?? formData.subject}`,
+        `Name: ${formData.name}`,
+        `Email: ${formData.email}`,
+        "",
+        formData.message,
+      ].join("\n")
+    );
   };
 
   const input = "w-full px-4 py-2 border border-border rounded-lg text-sm bg-background";
@@ -85,14 +99,9 @@ export default function ContactPage() {
               </div>
 
               <div className="lg:col-span-2">
-                {sent && (
-                  <p className="mb-6 rounded-lg bg-emerald-50 text-emerald-800 px-4 py-3 text-sm">
-                    <T
-                      en="Thank you for your message! We'll get back to you soon."
-                      bn="আপনার বার্তার জন্য ধন্যবাদ! আমরা শীঘ্রই যোগাযোগ করব।"
-                    />
-                  </p>
-                )}
+                {message ? (
+                  <SendEnquiry message={message} onEdit={() => setMessage(null)} />
+                ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
@@ -129,6 +138,7 @@ export default function ContactPage() {
                     <T en="Send Message" bn="বার্তা পাঠান" />
                   </Button>
                 </form>
+                )}
               </div>
             </div>
           </div>
