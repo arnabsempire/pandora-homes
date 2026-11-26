@@ -39,11 +39,6 @@ export function Header() {
         {/* Language + CTA */}
         <div className="flex items-center gap-2">
           <LanguageToggle />
-          <Link href="/login" className="hidden lg:block">
-            <Button variant="ghost" size="sm">
-              {t("Sign In", "সাইন ইন")}
-            </Button>
-          </Link>
           <Link href="/rooms" className="hidden sm:block">
             <Button size="sm" className="bg-amber-500 hover:bg-amber-600">
               {t("Book Room Now", "রুম বুক করুন")}
@@ -71,9 +66,6 @@ export function Header() {
                 {l.label}
               </Link>
             ))}
-            <Link href="/login" className="text-sm font-medium hover:text-primary px-3 py-2">
-              {t("Sign In", "সাইন ইন")}
-            </Link>
             <Link href="/rooms" className="px-3 py-2">
               <Button size="sm" className="w-full bg-amber-500 hover:bg-amber-600">
                 {t("Book Room Now", "রুম বুক করুন")}

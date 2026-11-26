@@ -3,10 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "MODE_OPTIONS=--max-old-space-size=4096 next dev --hostname 0.0.0.6",
-    "dev:webpack": "next dev --hostname 0.0.0.6",
-    "build": "next build",
-    "start": "next start"
+    "dev": "next dev",
+    "build": "next build"
   },
   "dependencies": {
     "clsx": "2.1.1",

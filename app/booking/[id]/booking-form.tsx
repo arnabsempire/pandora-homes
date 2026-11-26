@@ -1,15 +1,24 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { DateRangePicker } from "@/components/date-range-picker";
+import { SendEnquiry } from "@/components/send-enquiry";
 import { Money, Num, T, useT } from "@/lib/i18n";
 import { getRoom, stayPrice } from "@/lib/rooms";
 import { loadStayDates, nightsBetween, saveStayDates, type StayDates } from "@/lib/stay-dates";
+
+const PAYMENT_METHODS = [
+  { en: "Credit/Debit Card", bn: "ক্রেডিট/ডেবিট কার্ড" },
+  { en: "Bank Transfer", bn: "ব্যাংক ট্রান্সফার" },
+  { en: "Mobile Banking (bKash, Nagad)", bn: "মোবাইল ব্যাংকিং (বিকাশ, নগদ)" },
+];
+
+const fmtDate = (d?: Date) =>
+  d ? d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }) : "-";
 
 export default function BookingForm() {
   const params = useParams<{ id: string }>();
@@ -17,8 +26,11 @@ export default function BookingForm() {
   const t = useT();
 
   const [dates, setDates] = useState<StayDates>({});
+  const [guest, setGuest] = useState({ name: "", email: "", phone: "" });
+  const [payment, setPayment] = useState(PAYMENT_METHODS[0].en);
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [showTermsError, setShowTermsError] = useState(false);
+  const [message, setMessage] = useState<string | null>(null);
 
   // Pick up dates chosen in the search bar on the home or rooms page.
   useEffect(() => setDates(loadStayDates()), []);
@@ -38,8 +50,26 @@ export default function BookingForm() {
       setShowTermsError(true);
       return;
     }
-    console.log("Booking submitted:", { room: room.id, ...dates, nights, totalPrice });
+    setMessage(
+      [
+        "Booking request - Pandora Home's",
+        `Room: ${room.title.en} (#${room.id})`,
+        `Check-in: ${fmtDate(dates.from)}`,
+        `Check-out: ${fmtDate(dates.to)} (${nights} ${nights === 1 ? "night" : "nights"})`,
+        `Estimated total: Tk ${totalPrice.toLocaleString("en-US")}`,
+        `Payment: ${payment}`,
+        `Name: ${guest.name}`,
+        `Phone: ${guest.phone}`,
+        guest.email && `Email: ${guest.email}`,
+      ]
+        .filter(Boolean)
+        .join("\n")
+    );
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
+  const setField = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setGuest((g) => ({ ...g, [e.target.name]: e.target.value }));
 
   const input = "w-full px-4 py-2 border border-border rounded-lg text-sm bg-background";
 
@@ -55,6 +85,9 @@ export default function BookingForm() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Booking Form */}
             <div className="lg:col-span-2">
+              {message ? (
+                <SendEnquiry message={message} onEdit={() => setMessage(null)} />
+              ) : (
               <form onSubmit={handleSubmit} className="bg-background border border-border/40 rounded-lg p-6">
                 <section className="mb-8">
                   <h2 className="text-xl font-semibold mb-4">
@@ -72,15 +105,15 @@ export default function BookingForm() {
                   <div className="space-y-4">
                     <div>
                       <label className="block text-sm font-medium mb-2"><T en="Full Name" bn="পুরো নাম" /></label>
-                      <input type="text" placeholder={t("Your full name", "আপনার পুরো নাম")} className={input} required />
+                      <input type="text" name="name" value={guest.name} onChange={setField} placeholder={t("Your full name", "আপনার পুরো নাম")} className={input} required />
                     </div>
                     <div>
                       <label className="block text-sm font-medium mb-2"><T en="Email" bn="ইমেইল" /></label>
-                      <input type="email" placeholder="your@email.com" className={input} required />
+                      <input type="email" name="email" value={guest.email} onChange={setField} placeholder="your@email.com" className={input} />
                     </div>
                     <div>
                       <label className="block text-sm font-medium mb-2"><T en="Phone Number" bn="ফোন নম্বর" /></label>
-                      <input type="tel" placeholder="+880 1XXX XXXXXX" className={input} required />
+                      <input type="tel" name="phone" value={guest.phone} onChange={setField} placeholder="+880 1XXX XXXXXX" className={input} required />
                     </div>
                   </div>
                 </section>
@@ -88,16 +121,24 @@ export default function BookingForm() {
                 {/* Payment Information */}
                 <section className="mb-8">
                   <h2 className="text-xl font-semibold mb-4">
-                    <T en="Payment Method" bn="পেমেন্ট পদ্ধতি" />
+                    <T en="Preferred Payment Method" bn="পছন্দের পেমেন্ট পদ্ধতি" />
                   </h2>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    <T
+                      en="No payment is taken online. You pay after we confirm your room."
+                      bn="অনলাইনে কোনো টাকা নেওয়া হয় না। রুম নিশ্চিত হলে পেমেন্ট করবেন।"
+                    />
+                  </p>
                   <div className="space-y-3">
-                    {[
-                      { en: "Credit/Debit Card", bn: "ক্রেডিট/ডেবিট কার্ড" },
-                      { en: "Bank Transfer", bn: "ব্যাংক ট্রান্সফার" },
-                      { en: "Mobile Banking (bKash, Nagad)", bn: "মোবাইল ব্যাংকিং (বিকাশ, নগদ)" },
-                    ].map((m, i) => (
+                    {PAYMENT_METHODS.map((m) => (
                       <label key={m.en} className="flex items-center p-3 border border-border/40 rounded-lg cursor-pointer hover:bg-muted">
-                        <input type="radio" name="payment" defaultChecked={i === 0} className="w-4 h-4" />
+                        <input
+                          type="radio"
+                          name="payment"
+                          checked={payment === m.en}
+                          onChange={() => setPayment(m.en)}
+                          className="w-4 h-4"
+                        />
                         <span className="ml-3 text-sm"><T t={m} /></span>
                       </label>
                     ))}
@@ -117,20 +158,15 @@ export default function BookingForm() {
                       className="w-4 h-4 mt-1"
                     />
                     <span className="text-sm text-muted-foreground">
-                      <T en="I agree to the" bn="আমি" />{" "}
-                      <Link href="/terms" className="text-primary hover:underline">
-                        <T en="terms and conditions" bn="শর্তাবলি" />
-                      </Link>{" "}
-                      <T en="and" bn="এবং" />{" "}
-                      <Link href="/privacy" className="text-primary hover:underline">
-                        <T en="privacy policy" bn="গোপনীয়তা নীতি" />
-                      </Link>
-                      <T en="" bn="-তে সম্মত আছি" />
+                      <T
+                        en="I understand this is a booking request. Pandora Home's will contact me to confirm the room and payment."
+                        bn="আমি বুঝেছি এটি একটি বুকিং অনুরোধ। রুম ও পেমেন্ট নিশ্চিত করতে প্যান্ডোরা হোম'স আমার সাথে যোগাযোগ করবে।"
+                      />
                     </span>
                   </label>
                   {showTermsError && (
                     <p className="mt-2 text-sm text-red-600">
-                      <T en="Please agree to the terms and conditions." bn="অনুগ্রহ করে শর্তাবলিতে সম্মতি দিন।" />
+                      <T en="Please tick the box to continue." bn="এগিয়ে যেতে বক্সে টিক দিন।" />
                     </p>
                   )}
                 </section>
@@ -140,9 +176,10 @@ export default function BookingForm() {
                   disabled={nights <= 0 || !room.available}
                   className="w-full bg-amber-500 hover:bg-amber-600 text-white"
                 >
-                  <T en="Proceed to Payment" bn="পেমেন্টে এগিয়ে যান" />
+                  <T en="Request Booking" bn="বুকিং অনুরোধ করুন" />
                 </Button>
               </form>
+              )}
             </div>
 
             {/* Booking Summary */}
